@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Abdaltawab & Maryam</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #070707;
+      --black-soft: #101010;
+      --gold: #d9c29c;
+      --gold-light: #eee0bf;
+      --text: #f7f2e8;
+      --muted: #aaa39a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       OPENING SCREEN
+    ========================== */
+
+    #opening {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background:
+        radial-gradient(circle at center, #17130d 0%, #080808 45%, #000 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity 1s ease;
+    }
+/* =========================
+   LUXURY ENVELOPE OPENING
+========================= */
+
+.envelope-opening {
+  background:
+    radial-gradient(circle at center, #211a11 0%, #090807 48%, #020202 100%);
+  flex-direction: column;
+  gap: 35px;
+  cursor: pointer;
+}
+
+.envelope {
+  position: relative;
+  width: min(82vw, 430px);
+  aspect-ratio: 1.45 / 1;
+  perspective: 1200px;
+  filter: drop-shadow(0 30px 35px rgba(0,0,0,.55));
+}
+
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #1b1712, #080706);
+  border: 1px solid rgba(217,194,156,.35);
+  border-radius: 5px;
+}
+
+.envelope-front {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #211b14, #0a0907);
+  border: 1px solid rgba(217,194,156,.35);
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+  z-index: 5;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 58%;
+  background: linear-gradient(145deg, #30271b, #0d0b08);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transition: transform 1.2s cubic-bezier(.77,0,.18,1);
+  z-index: 8;
+}
+
+.invitation-card {
+  position: absolute;
+  left: 8%;
+  bottom: 8%;
+  width: 84%;
+  height: 88%;
+  background: linear-gradient(145deg, #f5ead2, #d8c29d);
+  color: #201a12;
+  z-index: 3;
+  text-align: center;
+  padding: 35px 20px;
+  transform: translateY(5%);
+  transition:
+    transform 1.4s cubic-bezier(.22,1,.36,1),
+    box-shadow 1.2s ease;
+  box-shadow: 0 15px 30px rgba(0,0,0,.35);
+}
+
+.card-small {
+  font-size: 8px;
+  letter-spacing: 4px;
+  margin-bottom: 30px;
+}
+
+.card-names {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(30px, 7vw, 48px);
+  line-height: .9;
+}
+
+.card-names span {
+  display: block;
+  font-size: .5em;
+  margin: 12px 0;
+  font-style: italic;
+}
+
+.card-event {
+  margin-top: 28px;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.wax-seal {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e8d5aa, #a78b5c);
+  color: #302515;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  box-shadow:
+    0 6px 15px rgba(0,0,0,.4),
+    inset 0 0 0 2px rgba(255,255,255,.18);
+  z-index: 10;
+  transition:
+    transform .7s ease,
+    opacity .5s ease;
+}
+
+.opening-hint {
+  color: var(--gold);
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  animation: hintPulse 2s infinite;
+}
+
+@keyframes hintPulse {
+  0%,100% {
+    opacity: .45;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.envelope-opening.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+.envelope-opening.open .invitation-card {
+  transform: translateY(-58%);
+  box-shadow: 0 35px 60px rgba(0,0,0,.5);
+}
+
+.envelope-opening.open .wax-seal {
+  transform: translate(-50%, -50%) scale(.2);
+  opacity: 0;
+}
+
+.envelope-opening.open .opening-hint {
+  opacity: 0;
+}
+
+@media (max-width: 600px) {
+
+  .envelope {
+    width: 88vw;
+  }
+
+  .invitation-card {
+    padding: 25px 15px;
+  }
+
+  .wax-seal {
+    width: 58px;
+    height: 58px;
+  }
+
+}
+    .opening-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      transition: opacity .7s ease;
+    }
+
+    .opening-small {
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .opening-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(40px, 8vw, 76px);
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      margin-bottom: 30px;
+    }
+
+    .open-button {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 1px solid rgba(217,194,156,.6);
+      background: rgba(217,194,156,.04);
+      color: var(--gold-light);
+      cursor: pointer;
+      letter-spacing: 2px;
+      font-size: 10px;
+      transition: .4s ease;
+      box-shadow: 0 0 0 0 rgba(217,194,156,.15);
+      animation: pulse 2.5s infinite;
+    }
+
+    .open-button:hover {
+      background: rgba(217,194,156,.12);
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse {
+      0%,100% {
+        box-shadow: 0 0 0 0 rgba(217,194,156,.12);
+      }
+      50% {
+        box-shadow: 0 0 0 18px rgba(217,194,156,0);
+      }
+    }
+
+    /* =========================
+       CURTAINS
+    ========================== */
+
+    .curtain {
+      position: absolute;
+      top: 0;
+      width: 51%;
+      height: 100%;
+      background:
+        linear-gradient(
+          90deg,
+          #050505 0%,
+          #16120d 35%,
+          #080808 70%,
+          #020202 100%
+        );
+      z-index: 5;
+      transition:
+        transform 1.8s cubic-bezier(.77,0,.18,1);
+    }
+
+    .curtain::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(
+        transparent,
+        rgba(217,194,156,.45),
+        transparent
+      );
+    }
+
+    .curtain-left {
+      left: 0;
+      transform-origin: left;
+    }
+
+    .curtain-left::after {
+      right: 0;
+    }
+
+    .curtain-right {
+      right: 0;
+      transform-origin: right;
+    }
+
+    .curtain-right::after {
+      left: 0;
+    }
+
+    #opening.open .curtain-left {
+      transform: translateX(-100%);
+    }
+
+    #opening.open .curtain-right {
+      transform: translateX(100%);
+    }
+
+    #opening.open .opening-content {
+      opacity: 0;
+    }
+
+    #opening.closed {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* =========================
+       MAIN CONTENT
+    ========================== */
+
+    main {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    main.visible {
+      opacity: 1;
+    }
+
+    section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+    }
+
+    .hero {
+      text-align: center;
+      background:
+        radial-gradient(circle at center, #19140d 0%, #090909 42%, #050505 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(217,194,156,.035);
+      filter: blur(70px);
+    }
+
+    .eyebrow {
+      position: relative;
+      font-size: 10px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 25px;
+    }
+
+    .names {
+      position: relative;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(60px, 13vw, 125px);
+      font-weight: 400;
+      line-height: .85;
+      color: var(--gold-light);
+    }
+
+    .ampersand {
+      display: block;
+      font-size: .48em;
+      color: var(--gold);
+      margin: 20px 0;
+      font-style: italic;
+    }
+
+    .event-type {
+      position: relative;
+      margin-top: 35px;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll {
+      position: absolute;
+      bottom: 35px;
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       DETAILS
+    ========================== */
+
+    .details {
+      background: var(--black-soft);
+      text-align: center;
+    }
+
+    .section-inner {
+      width: min(900px, 100%);
+    }
+
+    .section-label {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 8vw, 70px);
+      font-weight: 400;
+      color: var(--gold-light);
+      margin-bottom: 45px;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid rgba(217,194,156,.2);
+      border-bottom: 1px solid rgba(217,194,156,.2);
+    }
+
+    .detail {
+      padding: 35px 20px;
+    }
+
+    .detail:first-child {
+      border-right: 1px solid rgba(217,194,156,.2);
+    }
+
+    .detail-label {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .detail-value {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 30px;
+      color: var(--gold-light);
+    }
+
+    /* =========================
+       COUNTDOWN
+    ========================== */
+
+    .countdown-section {
+      background: #080808;
+      text-align: center;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .time-box {
+      padding: 25px 10px;
+      border: 1px solid rgba(217,194,156,.18);
+      background: rgba(217,194,156,.025);
+    }
+
+    .time-number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(35px, 7vw, 60px);
+      color: var(--gold-light);
+    }
+
+    .time-label {
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* =========================
+       VENUE
+    ========================== */
+
+    .venue {
+      background:
+        linear-gradient(rgba(5,5,5,.8),rgba(5,5,5,.8)),
+        radial-gradient(circle at center, #251d12, #050505 70%);
+      text-align: center;
+    }
+
+    .venue-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(40px, 8vw, 70px);
+      color: var(--gold-light);
+      margin-bottom: 15px;
+    }
+
+    .venue-note {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       CLOSING
+    ========================== */
+
+    .closing {
+      min-height: 75vh;
+      text-align: center;
+      background: #050505;
+    }
+
+    .closing-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(40px, 8vw, 70px);
+      color: var(--gold-light);
+      margin-bottom: 25px;
+    }
+
+    .closing-text {
+      max-width: 500px;
+      margin: auto;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 13px;
+    }
+
+    .monogram {
+      width: 75px;
+      height: 75px;
+      border: 1px solid rgba(217,194,156,.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 45px auto 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 24px;
+      color: var(--gold);
+    }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      background: #030303;
+      color: #625e58;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 600px) {
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail:first-child {
+        border-right: none;
+        border-bottom: 1px solid rgba(217,194,156,.2);
+      }
+
+      .countdown {
+        gap: 7px;
+      }
+
+      .time-box {
+        padding: 20px 5px;
+      }
+
+      .time-label {
+        letter-spacing: 1px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       OPENING
+  ========================== -->
+<div id="opening" class="envelope-opening">
+
+  <div class="envelope">
+
+    <div class="envelope-back"></div>
+
+    <div class="invitation-card">
+      <div class="card-small">A SPECIAL INVITATION</div>
+
+      <div class="card-names">
+        Abdaltawab
+        <span>&amp;</span>
+        Maryam
+      </div>
+
+      <div class="card-event">
+        Engagement Celebration
+      </div>
+    </div>
+
+    <div class="envelope-flap"></div>
+
+    <div class="envelope-front">
+      <div class="wax-seal">A&nbsp;&amp;&nbsp;M</div>
+    </div>
+
+  </div>
+
+  <div class="opening-hint">
+    TAP THE ENVELOPE TO OPEN
+  </div>
+
+</div>
+
+  <!-- =========================
+       INVITATION
+  ========================== -->
+
+  <main id="main">
+
+    <section class="hero">
+
+      <div>
+
+        <div class="eyebrow">
+          Together with our families
+        </div>
+
+        <div class="names">
+          Abdaltawab
+
+          <span class="ampersand">&amp;</span>
+
+          Maryam
+        </div>
+
+        <div class="event-type">
+          Engagement Celebration
+        </div>
+
+      </div>
+
+      <div class="scroll">
+        Scroll to discover
+      </div>
+
+    </section>
+
+
+    <!-- DETAILS -->
+
+    <section class="details">
+
+      <div class="section-inner">
+
+        <div class="section-label">
+          Save the date
+        </div>
+
+        <h2 class="section-title">
+          A Night To Remember
+        </h2>
+
+        <div class="details-grid">
+
+          <div class="detail">
+
+            <div class="detail-label">
+              Date
+            </div>
+
+            <div class="detail-value">
+              November 6, 2026
+            </div>
+
+          </div>
+
+          <div class="detail">
+
+            <div class="detail-label">
+              Time
+            </div>
+
+            <div class="detail-value">
+              8:00 PM
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- COUNTDOWN -->
+
+    <section class="countdown-section">
+
+      <div class="section-inner">
+
+        <div class="section-label">
+          The countdown begins
+        </div>
+
+        <h2 class="section-title">
+          Until We Celebrate
+        </h2>
+
+        <div class="countdown">
+
+          <div class="time-box">
+            <div class="time-number" id="days">00</div>
+            <div class="time-label">Days</div>
+          </div>
+
+          <div class="time-box">
+            <div class="time-number" id="hours">00</div>
+            <div class="time-label">Hours</div>
+          </div>
+
+          <div class="time-box">
+            <div class="time-number" id="minutes">00</div>
+            <div class="time-label">Minutes</div>
+          </div>
+
+          <div class="time-box">
+            <div class="time-number" id="seconds">00</div>
+            <div class="time-label">Seconds</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- VENUE -->
+
+    <section class="venue">
+
+      <div class="section-inner">
+
+        <div class="section-label">
+          The celebration
+        </div>
+
+        <div class="venue-name">
+          Venue
+        </div>
+
+        <div class="venue-note">
+          Location details will be announced soon
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CLOSING -->
+
+    <section class="closing">
+
+      <div>
+
+        <div class="section-label">
+          With love
+        </div>
+
+        <h2 class="closing-title">
+          We can't wait to celebrate with you.
+        </h2>
+
+        <p class="closing-text">
+          A beautiful beginning deserves a beautiful celebration.
+          Thank you for being part of our special night.
+        </p>
+
+        <div class="monogram">
+          A&nbsp;&nbsp;M
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <footer>
+      Abdaltawab &amp; Maryam · 2026
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    /* =========================
+       OPEN INVITATION
+    ========================== */
+const opening = document.getElementById("opening");
+const main = document.getElementById("main");
+const envelope = document.querySelector(".envelope");
+
+envelope.addEventListener("click", () => {
+  opening.classList.add("open");
+
+  setTimeout(() => {
+    main.classList.add("visible");
+  }, 1200);
+
+  setTimeout(() => {
+    opening.classList.add("closed");
+  }, 2600);
+});
+    
+
+    /* =========================
+       COUNTDOWN
+    ========================== */
+
+    const targetDate = new Date("November 6, 2026 20:00:00").getTime();
+
+    function updateCountdown() {
+
+      const now = new Date().getTime();
+
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+
+        return;
+      }
+
+      const days = Math.floor(
+        difference / (1000 * 60 * 60 * 24)
+      );
+
+      const hours = Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+      );
+
+      const minutes = Math.floor(
+        (difference / (1000 * 60)) % 60
+      );
+
+      const seconds = Math.floor(
+        (difference / 1000) % 60
+      );
+
+      document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
+
+      document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+
+      document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+
+      document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+
+    setInterval(updateCountdown, 1000);
+
+  </script>
+
+</body>
+</html>
